@@ -10,9 +10,10 @@ If it's not your case, install it :p
 ## Install
 
     git clone https://github.com/Jesus-21/addic7ed.git addic7ed
-    cd addic7ed
 
-then
+or download/unzip [archive](https://github.com/Jesus-21/addic7ed/archive/master.zip)
+
+then (from download/clone path):
 
     sudo pip install -r requirements.txt
 or use python [Python virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) and install requirements within.
@@ -28,7 +29,6 @@ then it will prompt which file you want to download.
 If download is successful, it will rename the video file to match subtitle file.
 
 ## TODO List
-
  - Colored output
  - Packaging (for pip/easy_install)
  - Error management (almost none right now)
