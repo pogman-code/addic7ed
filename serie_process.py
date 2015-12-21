@@ -22,3 +22,5 @@ def post_process(serie):
         return serie.replace("Daredevil -", "Marvel's Daredevil -")
     elif serie.startswith("Doctor Who -"):
         return serie.replace("Doctor Who -", "Doctor Who (2005) -")
+    else:
+        return serie
