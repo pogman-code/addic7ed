@@ -1,5 +1,6 @@
 import re
 import requests
+import difflib
 
 from bs4 import BeautifulSoup
 from serie_process import post_process
@@ -8,7 +9,7 @@ from termcolor import colored
 
 
 class Addic7edParser:
-    def parse(self, serie, season, episode):
+    def parse(self, serie, season, episode, group):
         url = "http://www.addic7ed.com/serie/%s/%s/%s" % (
             serie,
             season,
@@ -23,19 +24,28 @@ class Addic7edParser:
         for table in tables:
             inner_table = table.find("table", attrs={"class": "tabel95"})
             if inner_table:
-                subs.append(Subtitle(inner_table, "%s/%s" % (url, "addic7ed")))
-        return subs
+                subs.append(Subtitle(inner_table,
+                                     "%s/%s" % (url, "addic7ed"),
+                                     group))
+        return sorted(subs,
+                      key=lambda s: (s.match_ratio, s.downloads),
+                      reverse=True)
 
 
 class Subtitle:
-    def __init__(self, html_table, referer):
+    def __init__(self, html_table, referer, best_group):
         self.html = html_table
         self.referer = referer
 
         self.release = self._extract_release()
+        self.match_ratio = difflib.SequenceMatcher(None,
+                                                   self.release.split(" ")[-1],
+                                                   best_group).ratio() * 100
         self.language = self._extract_language()
         self.completion = self._extract_completion()
         self.comment, self.various = self._extract_comment()
+        m = re.search(r"([0-9]+) Downloads", self.various)
+        self.downloads = int(m.group(1))
         self.link = self._extract_link()
 
     def download(self):
@@ -45,7 +55,8 @@ class Subtitle:
         subs = requests.get(self.link, headers={"Referer": self.referer})
         filename = re.search(r'"(.*)"',
                              subs.headers["Content-Disposition"]).group(1)
-        filename = re.sub(r"\.%s.*Addic7ed\.com" % self.release.split(" ")[1],
+        filename = re.sub(r"\.%s.*Addic7ed\.com" %
+                          self.release.replace("Version ", ""),
                           "",  filename)
         filename = post_process(filename)
         f = open(filename, 'w')
@@ -80,11 +91,16 @@ class Subtitle:
 
     def __str__(self):
         complete = "green" if (self.completion == "Completed") else "red"
-        return ("%s %s \t%s | %s \t%s") % (
+        return ("%s"  # " (%s)"
+                "\n    %s | %s"
+                "\n    %s"
+                "\n    %s") % (
             colored(self.release, "white", attrs=['bold']),
-            colored(self.comment, "white", attrs=["dark"]),
+            # colored("%02d%%" % self.match_ratio,
+            #         "red" if self.match_ratio < 75 else "green"),
             self.language,
             colored(self.completion, complete),
+            colored(self.comment, "white", attrs=["dark"]),
             colored(self.various, "white", attrs=["dark"])
         )
 
