@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from serie_process import post_process
 from constants import ADDIC7ED_URL, LANG
+from termcolor import colored
 
 
 class Addic7edParser:
@@ -50,6 +51,7 @@ class Subtitle:
         f = open(filename, 'w')
         f.write(subs.text)
         f.close()
+        print(colored("Downloaded %s" % filename, "green"))
         return filename[:-4]
 
     def _extract_release(self):
@@ -77,17 +79,14 @@ class Subtitle:
                          })[-1].get("href"))
 
     def __str__(self):
-        return \
-    """%s
-    %s
-    %s
-    %s
-    %s
-    """ % (self.release,
-             self.language,
-             self.completion,
-             self.comment,
-             self.various)
+        complete = "green" if (self.completion == "Completed") else "red"
+        return ("%s %s \t%s | %s \t%s") % (
+            colored(self.release, "white", attrs=['bold']),
+            colored(self.comment, "white", attrs=["dark"]),
+            self.language,
+            colored(self.completion, complete),
+            colored(self.various, "white", attrs=["dark"])
+        )
 
 
 class IncompleteError(Exception):

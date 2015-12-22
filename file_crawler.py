@@ -1,6 +1,7 @@
 import os
 import re
 from serie_process import pre_process
+from termcolor import colored
 
 REGEX = r"(.*)\.[s|S]?([0-9]{1,2})[x|X|e|E]?([0-9]{2})(.*)"
 
@@ -40,6 +41,8 @@ class Episode:
         try:
             os.rename("%s%s" % (self.filename, self.extension),
                       "%s%s" % (new_name, self.extension))
+            print(colored("Renamed %s to %s" % (self.filename, new_name),
+                          "green"))
             self.filename = new_name
         except Exception as e:
             print(e)

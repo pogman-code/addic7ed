@@ -29,7 +29,6 @@ then it will prompt which file you want to download.
 If download is successful, it will rename the video file to match subtitle file.
 
 ## TODO List
- - Colored output
  - Packaging (for pip/easy_install)
  - Error management (almost none right now)
  - Langue choice through config file
