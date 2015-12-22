@@ -3,7 +3,7 @@ import re
 from serie_process import pre_process
 from termcolor import colored
 
-REGEX = r"(.*)\.[s|S]?([0-9]{1,2})[x|X|e|E]?([0-9]{2})(.*)"
+REGEX = r"(.*)\.[s|S]?([0-9]{1,2})[x|X|e|E]?([0-9]{2})\..*([0-9]+p)?.*"
 
 
 class FileCrawler:
@@ -36,6 +36,8 @@ class Episode:
             "episode": episode,
         }
         self.filename, self.extension = os.path.splitext(f)
+        m = re.search(r"-(.*)%s$" % self.extension, f)
+        self.infos["group"] = m.group(1) if m else None
 
     def rename(self, new_name):
         try:
