@@ -27,6 +27,8 @@ Finally, edit *constants.py* file to uncomment the language you need.
 
 then it will prompt which file you want to download.
 If download is successful, it will rename the video file to match subtitle file.
+e.g.:
+![Example](readme/capture.jpg)
 
 ## TODO List
  - Packaging (for pip/easy_install)
