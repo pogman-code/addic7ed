@@ -1,9 +1,6 @@
 Addic7ed Scraper
 ================
 
-**First of all, be aware that this is a VERY FIRST draft of a scraper
-for Addic7ed.com's subtitles**
-
 Requirements
 ------------
 
@@ -38,17 +35,13 @@ Using Git repository:
     virtualenv <http://docs.python-guide.org/en/latest/dev/virtualenvs/>`__
     and install requirements within.
 
-Finally, edit *constants.py* file to uncomment the language you need.
-
-TBD / NOT YET AVAILABLE!
-
 Create ~/.addic7edrc file containing language you want (english for instance):
 ::
 
     [config]
     lang = 1
 
-You can find language codes `here <https://github.com/Jesus-21/addic7ed/blob/master/constants.py>`__
+You can find language codes `here <https://github.com/Jesus-21/addic7ed/blob/master/addic7ed/constants.py>`__
 
 Usage
 -----
@@ -72,7 +65,7 @@ successful, it will rename the video file to match subtitle file.
 TODO List
 ---------
 -  Error management (almost none right now)
--  Langue choice through config file
+-  CLI arguments (language, etc.)
 -  Intelligent auto-download (using release name + completion +
    popularity)
 -  Better file crawling (recursivity mainly)
