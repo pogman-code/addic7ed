@@ -5,8 +5,8 @@ import difflib
 from bs4 import BeautifulSoup
 from termcolor import colored
 
-from .serie_process import post_process
-from .constants import ADDIC7ED_URL, LANG
+from addic7ed.serie_process import post_process
+from addic7ed.constants import ADDIC7ED_URL, LANG
 
 class Addic7edParser:
     def parse(self, serie, season, episode, group):
