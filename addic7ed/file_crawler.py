@@ -39,7 +39,7 @@ class Episode:
         }
         self.filename, self.extension = os.path.splitext(f)
         m = re.search(r"-(.*)%s$" % self.extension, f)
-        self.infos["group"] = m.group(1) if m else None
+        self.infos["group"] = m.group(1) if m else ""
 
     def rename(self, new_name):
         try:
