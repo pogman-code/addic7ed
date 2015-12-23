@@ -56,7 +56,7 @@ class Subtitle:
         filename = re.search(r'"(.*)"',
                              subs.headers["Content-Disposition"]).group(1)
         filename = re.sub(r"\.%s.*Addic7ed\.com" %
-                          self.release.replace("Version ", ""),
+                          re.escape(self.release.replace("Version ", "")),
                           "",  filename)
         filename = post_process(filename)
         f = open(filename, 'w')
