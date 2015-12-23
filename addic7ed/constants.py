@@ -55,3 +55,11 @@ LANG = 1   # English
 # LANG = 16  # Turkish
 # LANG = 51  # Ukrainian
 # LANG = 45  # Vietnamese
+
+from os.path import expanduser
+from configparser import ConfigParser
+
+config = ConfigParser()
+config.read(expanduser("~") + "/.addic7edrc")
+if "addic7ed" in config and "lang" in config["addic7ed"]:
+    LANG = config["addic7ed"]["lang"]
