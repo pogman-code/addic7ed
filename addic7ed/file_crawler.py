@@ -1,7 +1,9 @@
 import os
 import re
-from serie_process import pre_process
+
 from termcolor import colored
+
+from .serie_process import pre_process
 
 REGEX = r"(.*)\.[s|S]?([0-9]{1,2})[x|X|e|E]?([0-9]{2})\..*([0-9]+p)?.*"
 
