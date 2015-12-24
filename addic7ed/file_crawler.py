@@ -45,8 +45,18 @@ class Episode:
         try:
             os.rename("%s%s" % (self.filename, self.extension),
                       "%s%s" % (new_name, self.extension))
-            print(colored("Renamed %s to %s" % (self.filename, new_name),
-                          "green"))
+            ret = colored("Renamed %s to %s" % (self.filename, new_name),
+                          "green")
             self.filename = new_name
         except Exception as e:
-            print(e)
+            ret = colored(e, "red")
+
+        return ret
+
+    def __str__(self):
+        return colored("%s - Season %02d Episode %02d (%s)" % (
+            self.infos["serie"].replace("_", " ").title(),
+            self.infos["season"],
+            self.infos["episode"],
+            self.filename
+        ), "blue")

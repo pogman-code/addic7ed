@@ -8,36 +8,40 @@ parser = Addic7edParser()
 
 
 def addic7ed():
-    for filename, v in crawler.episodes.items():
-        subs = parser.parse(**v.infos)
+    try:
+        main()
+    except (KeyboardInterrupt, SystemExit):
+        print(colored("\nBye!", "yellow"))
+        exit(0)
 
-        print(colored("\n%s - Season %02d Episode %02d (%s)" % (
-            v.infos["serie"].replace("_", " ").title(),
-            v.infos["season"],
-            v.infos["episode"],
-            filename
-        ), "blue"))
+
+def main():
+    for filename, ep in crawler.episodes.items():
+        subs = parser.parse(**ep.infos)
+
+        print(ep)
 
         if not subs:
-            print(colored("No subtitles for %s" % filename, "red"))
+            print(colored("No subtitles for %s" % filename, "red"),
+                  end="\n\n")
             continue
 
         for i, sub in enumerate(subs):
             print("[%s] %s" % (colored(i, "yellow"), sub))
 
-        try:
-            version = input('Download number? ')
-        except (KeyboardInterrupt, SystemExit):
-            print(colored("\nBye!", "yellow"))
-            exit(0)
+        version = input('Download number? ')
 
         if not version:
-            print(colored("Nothing to do!", "yellow"))
+            print(colored("Nothing to do!", "yellow"),
+                  end="\n\n")
             continue
 
         try:
             filename = subs[int(version)].download()
+            print(colored("Downloaded %s subtitle file" % filename, "green"))
             if filename:
-                v.rename(filename)
+                print(ep.rename(filename),
+                      end="\n\n")
         except Exception as e:
-            print(colored(e, "red"))
+            print(colored(e, "red"),
+                  end="\n\n")

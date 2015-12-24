@@ -8,6 +8,7 @@ from termcolor import colored
 from addic7ed.serie_process import post_process
 from addic7ed.constants import ADDIC7ED_URL, LANG
 
+
 class Addic7edParser:
     def parse(self, serie, season, episode, group):
         url = "http://www.addic7ed.com/serie/%s/%s/%s" % (
@@ -62,7 +63,6 @@ class Subtitle:
         f = open(filename, 'w')
         f.write(subs.text)
         f.close()
-        print(colored("Downloaded %s" % filename, "green"))
         return filename[:-4]
 
     def _extract_release(self):

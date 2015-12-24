@@ -1,3 +1,6 @@
+from os.path import expanduser
+from configparser import ConfigParser
+
 ADDIC7ED_URL = "http://www.addic7ed.com"
 # LANG = 52  # Albanian
 # LANG = 38  # Arabic
@@ -55,9 +58,6 @@ LANG = 1   # English
 # LANG = 16  # Turkish
 # LANG = 51  # Ukrainian
 # LANG = 45  # Vietnamese
-
-from os.path import expanduser
-from configparser import ConfigParser
 
 config = ConfigParser()
 config.read(expanduser("~") + "/.addic7edrc")
