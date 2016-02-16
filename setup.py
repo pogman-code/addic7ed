@@ -34,6 +34,8 @@ setup(
     packages=find_packages(exclude=['readme']),
 
     install_requires=['beautifulsoup4',
+                      'fuzzywuzzy',
+                      'python-Levenshtein',
                       'requests',
                       'termcolor'],
 

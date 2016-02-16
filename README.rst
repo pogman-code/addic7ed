@@ -69,8 +69,6 @@ TODO List
 -  Intelligent auto-download (using release name + completion +
    popularity)
 -  Better file crawling (recursivity mainly)
--  More pre/post processing of series names
--  (Python 2 support?)
 
 Suggestions and/or pull requests are more than welcome!
 

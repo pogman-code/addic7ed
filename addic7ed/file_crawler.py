@@ -4,13 +4,14 @@ import re
 from collections import OrderedDict
 from termcolor import colored
 
-from addic7ed.serie_process import pre_process
+from addic7ed.shows import Shows
 
 REGEX = r"(.*)\.[s|S]?([0-9]{1,2})[x|X|e|E]?([0-9]{2})\..*([0-9]+p)?.*"
 
 
 class FileCrawler:
     def __init__(self):
+        self.shows = Shows()
         self.episodes = OrderedDict()
         for f in sorted(os.listdir()):
             if f.endswith((".avi", ".mkv", ".mp4")):
@@ -23,7 +24,7 @@ class FileCrawler:
         if m:
             return Episode(
                 filename,
-                pre_process(m.group(1).replace('.', '_').lower()),
+                self.shows.get(m.group(1).replace('.', ' ').title()),
                 int(m.group(2)),
                 int(m.group(3))
             )
@@ -56,7 +57,7 @@ class Episode:
 
     def __str__(self):
         return colored("%s - Season %02d Episode %02d (%s)" % (
-            self.infos["serie"].replace("_", " ").title(),
+            self.infos["serie"],
             self.infos["season"],
             self.infos["episode"],
             self.filename

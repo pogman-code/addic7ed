@@ -5,7 +5,6 @@ import difflib
 from bs4 import BeautifulSoup
 from termcolor import colored
 
-from addic7ed.serie_process import post_process
 from addic7ed.constants import ADDIC7ED_URL, LANG
 
 
@@ -59,7 +58,6 @@ class Subtitle:
         filename = re.sub(r"\.%s.*Addic7ed\.com" %
                           re.escape(self.release.replace("Version ", "")),
                           "",  filename)
-        filename = post_process(filename)
         f = open(filename, 'w')
         f.write(subs.text)
         f.close()

@@ -1,3 +1,5 @@
 beautifulsoup4
+fuzzywuzzy
+python-Levenshtein
 requests
 termcolor
