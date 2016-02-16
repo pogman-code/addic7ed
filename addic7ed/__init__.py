@@ -3,9 +3,6 @@ from termcolor import colored
 from .parser import Addic7edParser
 from .file_crawler import FileCrawler
 
-crawler = FileCrawler()
-parser = Addic7edParser()
-
 
 def addic7ed():
     try:
@@ -16,6 +13,9 @@ def addic7ed():
 
 
 def main():
+    crawler = FileCrawler()
+    parser = Addic7edParser()
+
     for filename, ep in crawler.episodes.items():
         subs = parser.parse(**ep.infos)
 
