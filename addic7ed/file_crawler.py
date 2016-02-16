@@ -1,6 +1,7 @@
 import os
 import re
 
+from collections import OrderedDict
 from termcolor import colored
 
 from addic7ed.serie_process import pre_process
@@ -10,9 +11,9 @@ REGEX = r"(.*)\.[s|S]?([0-9]{1,2})[x|X|e|E]?([0-9]{2})\..*([0-9]+p)?.*"
 
 class FileCrawler:
     def __init__(self):
-        self.episodes = {}
-        for f in os.listdir():
-            if f.endswith((".avi", "mkv", ".mp4")):
+        self.episodes = OrderedDict()
+        for f in sorted(os.listdir()):
+            if f.endswith((".avi", ".mkv", ".mp4")):
                 ep = self._parse_filename(f)
                 if ep:
                     self.episodes[f] = ep
