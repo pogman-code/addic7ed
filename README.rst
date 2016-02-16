@@ -38,7 +38,7 @@ Using Git repository:
 Create ~/.addic7edrc file containing language you want (english for instance):
 ::
 
-    [config]
+    [addic7ed]
     lang = 1
 
 You can find language codes `here <https://github.com/Jesus-21/addic7ed/blob/master/addic7ed/constants.py>`__
