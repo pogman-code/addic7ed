@@ -7,7 +7,7 @@ from .file_crawler import FileCrawler
 def addic7ed():
     try:
         main()
-    except (KeyboardInterrupt, SystemExit):
+    except (EOFError, KeyboardInterrupt, SystemExit):
         print(colored("\nBye!", "yellow"))
         exit(0)
 
