@@ -2,64 +2,69 @@ from os.path import expanduser
 from configparser import ConfigParser
 
 ADDIC7ED_URL = "http://www.addic7ed.com"
-# LANG = 52  # Albanian
-# LANG = 38  # Arabic
-# LANG = 50  # Armenian
-# LANG = 48  # Azerbaijani
-# LANG = 47  # Bengali
-# LANG = 44  # Bosnian
-# LANG = 35  # Bulgarian
-# LANG = 12  # Català
-# LANG = 41  # Chinese (Simplified)
-# LANG = 24  # Chinese (Traditional)
-# LANG = 31  # Croatian
-# LANG = 14  # Czech
-# LANG = 30  # Danish
-# LANG = 17  # Dutch
-LANG = 1   # English
-# LANG = 54  # Estonian
-# LANG = 13  # Euskera
-# LANG = 28  # Finnish
-# LANG = 8   # French
-# LANG = 53  # French (Canadian)
-# LANG = 15  # Galego
-# LANG = 11  # German
-# LANG = 27  # Greek
-# LANG = 23  # Hebrew
-# LANG = 55  # Hindi
-# LANG = 20  # Hungarian
-# LANG = 56  # Icelandic
-# LANG = 37  # Indonesian
-# LANG = 7   # Italian
-# LANG = 32  # Japanese
-# LANG = 42  # Korean
-# LANG = 57  # Latvian
-# LANG = 58  # Lithuanian
-# LANG = 49  # Macedonian
-# LANG = 40  # Malay
-# LANG = 29  # Norwegian
-# LANG = 43  # Persian
-# LANG = 21  # Polish
-# LANG = 9   # Portuguese
-# LANG = 10  # Portuguese (Brazilian)
-# LANG = 26  # Romanian
-# LANG = 19  # Russian
-# LANG = 39  # Serbian (Cyrillic)
-# LANG = 36  # Serbian (Latin)
-# LANG = 60  # Sinhala
-# LANG = 25  # Slovak
-# LANG = 22  # Slovenian
-# LANG = 4   # Spanish
-# LANG = 6   # Spanish (Latin America)
-# LANG = 5   # Spanish (Spain)
-# LANG = 18  # Swedish
-# LANG = 59  # Tamil
-# LANG = 46  # Thai
-# LANG = 16  # Turkish
-# LANG = 51  # Ukrainian
-# LANG = 45  # Vietnamese
 
-config = ConfigParser()
-config.read(expanduser("~") + "/.addic7edrc")
-if "addic7ed" in config and "lang" in config["addic7ed"]:
-    LANG = config["addic7ed"]["lang"]
+# Language code - "ISO 639-1" - except for 3 letters code
+LANG_ISO = {
+    'all': {'code': 0, 'lang': 'All languages'},
+    'ar': {'code': 38, 'lang': 'Arabic' },
+    'az': {'code': 48, 'lang': 'Azerbaijani' },
+    'bg': {'code': 35, 'lang': 'Bulgarian' },
+    'bn': {'code': 47, 'lang': 'Bengali' },
+    'bs': {'code': 44, 'lang': 'Bosnian' },
+    'ca': {'code': 12, 'lang': 'Català' },
+    'cs': {'code': 14, 'lang': 'Czech' },
+    'da': {'code': 30, 'lang': 'Danish' },
+    'de': {'code': 11, 'lang': 'German' },
+    'el': {'code': 27, 'lang': 'Greek' },
+    'en': {'code': 1, 'lang': 'English' },
+    'es': {'code': 4, 'lang': 'Spanish' },
+    'es-la': {'code': 6, 'lang': 'Spanish (Latin America)' },
+    'es-es': {'code': 5, 'lang': 'Spanish (Spain)' },
+    'et': {'code': 54, 'lang': 'Estonian' },
+    'eu': {'code': 13, 'lang': 'Euskera' },
+    'fa': {'code': 43, 'lang': 'Persian' },
+    'fi': {'code': 28, 'lang': 'Finnish' },
+    'fr': {'code': 8, 'lang': 'French' },
+    'fr-ca': {'code': 53, 'lang': 'French (Canadian)' },
+    'gl': {'code': 15, 'lang': 'Galego' },
+    'he': {'code': 23, 'lang': 'Hebrew' },
+    'hi': {'code': 55, 'lang': 'Hindi' },
+    'hr': {'code': 31, 'lang': 'Croatian' },
+    'hu': {'code': 20, 'lang': 'Hungarian' },
+    'hy': {'code': 50, 'lang': 'Armenian' },
+    'id': {'code': 37, 'lang': 'Indonesian' },
+    'is': {'code': 56, 'lang': 'Icelandic' },
+    'it': {'code': 7, 'lang': 'Italian' },
+    'ja': {'code': 32, 'lang': 'Japanese' },
+    'ko': {'code': 42, 'lang': 'Korean' },
+    'lt': {'code': 58, 'lang': 'Lithuanian' },
+    'lv': {'code': 57, 'lang': 'Latvian' },
+    'mk': {'code': 49, 'lang': 'Macedonian' },
+    'ms': {'code': 40, 'lang': 'Malay' },
+    'nl': {'code': 17, 'lang': 'Dutch' },
+    'no': {'code': 29, 'lang': 'Norwegian' },
+    'pl': {'code': 21, 'lang': 'Polish' },
+    'pt': {'code': 9, 'lang': 'Portuguese' },
+    'pt-br': {'code': 10, 'lang': 'Portuguese (Brazilian)' },
+    'ro': {'code': 26, 'lang': 'Romanian' },
+    'ru': {'code': 19, 'lang': 'Russian' },
+    'si': {'code': 60, 'lang': 'Sinhalese' },
+    'sk': {'code': 25, 'lang': 'Slovak' },
+    'sl': {'code': 22, 'lang': 'Slovene' },
+    'sq': {'code': 52, 'lang': 'Albanian' },
+    'sr': {'code': 39, 'lang': 'Serbian (Cyrillic)' },
+    'sr-la': {'code': 39, 'lang': 'Serbian (Latin)' },
+    'sv': {'code': 18, 'lang': 'Swedish' },
+    'ta': {'code': 59, 'lang': 'Tamil' },
+    'th': {'code': 46, 'lang': 'Thai' },
+    'tr': {'code': 16, 'lang': 'Turkish' },
+    'uk': {'code': 51, 'lang': 'Ukrainian' },
+    'vi': {'code': 45, 'lang': 'Viêt Namese' },
+    'zh-hans': {'code': 41, 'lang': 'Chinese (Simplified)' },
+    'zh-hant': {'code': 24, 'lang': 'Chinese (Traditional)' }
+}
+
+LANG_DEFAULT = 'en'
+
+CONFIG_FILE_NAME = ".addic7edrc"
+

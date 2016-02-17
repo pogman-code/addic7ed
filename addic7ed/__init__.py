@@ -1,13 +1,17 @@
 from termcolor import colored
 
+import logging
+
 from .parser import Addic7edParser
 from .file_crawler import FileCrawler
-from .logging import init_logger
+from .logger import init_logger
+from .argparser import parseargs
 
 
 def addic7ed():
     try:
         init_logger()
+        parseargs()
         main()
     except (EOFError, KeyboardInterrupt, SystemExit):
         print(colored("\nBye!", "yellow"))
