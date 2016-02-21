@@ -65,6 +65,10 @@ class Config():
 
         parser.add_argument('--list-lang', action='store_true', help='list languages supported.')
 
+        rename_group = parser.add_mutually_exclusive_group()
+        rename_group.add_argument('--rr', action='store_true', help='Rename the release file like the subtitle file')
+        rename_group.add_argument('--rs', action='store_true', help='Rename the subtitle file like the release file')
+
         self.args = parser.parse_args()
 
         if self.args.list_lang:
