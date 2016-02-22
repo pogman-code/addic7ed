@@ -9,7 +9,7 @@ from .config import Config
 def addic7ed():
     try:
         init_logger()
-        Config.parse_args()
+        Config.load()
         main()
     except (EOFError, KeyboardInterrupt, SystemExit):
         print(colored("\nBye!", "yellow"))

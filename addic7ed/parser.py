@@ -16,7 +16,7 @@ class Addic7edParser:
             season,
             episode
         )
-        data = requests.get("%s/%s" % (url, Config().get_lang_code())).text
+        data = requests.get("%s/%s" % (url, Config.lang["code"])).text
         soup = BeautifulSoup(data, "html.parser")
 
         tables = soup.find_all("table", attrs={"class": "tabel95"})

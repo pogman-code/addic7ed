@@ -1,12 +1,16 @@
 import logging
-import argparse
-
-from sys import exit
-from operator import getitem
 from os.path import expanduser
+
+from argparse import ArgumentParser, ArgumentTypeError
 from configparser import ConfigParser
 
 from .constants import LANG_ISO, LANG_DEFAULT, CONFIG_FILE_NAME
+
+logger = logging.getLogger("addic7ed.config")
+DEFAULT = {
+    "lang": LANG_DEFAULT,
+    "rename": "none"
+}
 
 
 def singleton(cls):
@@ -18,73 +22,80 @@ def singleton(cls):
     return instance
 
 
-@singleton
-class Config():
-    _lang = None
-
-    _config_file = ConfigParser()
-
-    def __init__(self):
-        self.logger = logging.getLogger('addic7ed.Config')
-        self.args = None
-        self._config_file.read(expanduser("~") + "/" + CONFIG_FILE_NAME)
-
-    def set_lang(self, lang):
-        if lang in LANG_ISO.keys():
-            self._lang = LANG_ISO[lang]
-            self.logger.info("Language %s is now set." % (self._lang['lang']))
-        else:
-            self.logger.warn("%s is not a valid language code." % lang)
-
-    def get_lang(self):
-        if self._lang and "addic7ed" in self._config_file and "lang" in self._config_file["addic7ed"]:
-            self.logger.info("Set language %s from config file" % self._config_file["addic7ed"]["lang"])
-            self.set_lang(self._config_file["addic7ed"]["lang"])
-        if self._lang is None:
-            self.logger.info("Set default language : %s" % LANG_DEFAULT)
-            self.set_lang(LANG_DEFAULT)
-        return self._lang
-
-    def get_lang_code(self):
-        return self.get_lang()["code"]
-
-    def get_lang_name(self):
-        return self.get_lang()['lang']
-
-    def get_args(self):
-        return self.args
-
-    def get_arg(self, arg):
-        return self.args[arg]
-
-    def parse_args(self):
-        parser = argparse.ArgumentParser(description='Download subtitles for TV Shows from addic7ed site.')
-
-        parser.add_argument('-l', '--lang', type=valid_lang,
-                            help='language used to search subtitles.')
-
-        parser.add_argument('--list-lang', action='store_true', help='list languages supported.')
-
-        rename_group = parser.add_mutually_exclusive_group()
-        rename_group.add_argument('--rr', action='store_true', help='Rename the release file like the subtitle file')
-        rename_group.add_argument('--rs', action='store_true', help='Rename the subtitle file like the release file')
-
-        self.args = parser.parse_args()
-
-        if self.args.list_lang:
-            self.print_languages_list()
-            exit(0)
-
-        if self.args.lang:
-            self.set_lang(self.args.lang)
-
-    def print_languages_list(self):
-        for x in sorted(LANG_ISO.items(), key=lambda x: getitem(x[1], 'lang')):
-            print("{0:<20}\t\t{1}".format(x[1]['lang'], x[0]))
-
-
-def valid_lang(lang):
+def _valid_lang(lang):
     if lang not in LANG_ISO.keys():
         msg = "%s is not a valid language code." % lang
-        raise argparse.ArgumentTypeError(msg)
+        raise ArgumentTypeError(msg)
     return lang
+
+
+def _lang_list():
+    llist = "%25s %s" % ("NAME", "CODE")
+    for x in sorted(LANG_ISO.items(), key=lambda x: x[1]["name"]):
+        llist = "%s\n%25s %s" % (llist, x[1]["name"], x[0])
+    return llist
+
+
+@singleton
+class Config():
+    def __init__(self):
+        for k, v in DEFAULT.items():
+            setattr(self, k, v)
+
+    def load(self):
+        self._from_file()
+        self._from_args()
+
+    def _from_file(self):
+        logger.info("Loading config from file")
+        config_file = ConfigParser()
+        config_file.read("%s/%s" % (expanduser("~"), CONFIG_FILE_NAME))
+        if "addic7ed" in config_file:
+            for k, v in config_file["addic7ed"].items():
+                if k in DEFAULT:
+                    logger.info("Setting '%s' from config file: %s" % (k, v))
+                    setattr(self, k, v)
+                else:
+                    logger.warn("Unknown key '%s' in config file" % k)
+
+    def _from_args(self):
+        logger.info("Loading config from CLI args")
+        parser = ArgumentParser(description=(
+            "Addic7ed scraper to download subtitles (almost) automatically"
+        ))
+
+        parser.add_argument("--list-lang", action="store_true",
+                            help="list supported languages.")
+        parser.add_argument("-l", "--lang", type=_valid_lang,
+                            help="language to search subs for (default: en).")
+        parser.add_argument("-r", "--rename",
+                            choices=["none", "sub", "video"],
+                            help=("TBD. rename sub/video to match video/sub "
+                                  "or none at all (default: none)."))
+
+        args = parser.parse_args()
+
+        if args.list_lang:
+            print(_lang_list())
+            exit(0)
+
+        if args.lang:
+            logger.info("Setting 'lang' from config file: %s" % args.lang)
+            self.lang = args.lang
+
+    def __setattr__(self, name, value):
+        if name == "lang":
+            if value in LANG_ISO.keys():
+                logger.info("Language '%s' is now set." % value)
+                super().__setattr__("_%s" % name, value)
+            else:
+                logger.warn("%s is not a valid language code, using %s" %
+                            (value, self._lang))
+        else:
+            super().__setattr__(name, value)
+
+    def __getattr__(self, name):
+        if name == "lang":
+            return LANG_ISO[self._lang]
+        else:
+            return super().__getattr__(name)
