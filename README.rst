@@ -1,3 +1,4 @@
+
 Addic7ed Scraper
 ================
 
@@ -39,7 +40,7 @@ Create ~/.addic7edrc file containing language you want (english for instance):
 ::
 
     [addic7ed]
-    lang = 1
+    lang = en
 
 You can find language codes `here <https://github.com/Jesus-21/addic7ed/blob/master/addic7ed/constants.py>`__
 
@@ -57,6 +58,20 @@ or
 
     $ /git/clone/path/addic7ed.py
 
+following command line arguments can be provided:
+ ::
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      --list-lang           list supported languages.
+      -l LANG, --lang LANG  language to search subs for (default: en).
+
+    TBD:
+      -r {none,sub,video}, --rename {none,sub,video}
+                            rename sub/video to match video/sub or none at
+                            all (default: none).
+
+
 then it will prompt which file you want to download. If download is
 successful, it will rename the video file to match subtitle file.
 
@@ -64,9 +79,8 @@ successful, it will rename the video file to match subtitle file.
 
 TODO List
 ---------
--  Error management (almost none right now)
--  CLI arguments (language, etc.)
--  Intelligent auto-download (using release name + completion +
+-  Error management/reporting
+-  Intelligent auto-download (using comment + completion +
    popularity)
 -  Better file crawling (recursivity mainly)
 
