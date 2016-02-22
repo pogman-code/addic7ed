@@ -5,7 +5,8 @@ import difflib
 from bs4 import BeautifulSoup
 from termcolor import colored
 
-from addic7ed.constants import ADDIC7ED_URL, LANG
+from addic7ed.constants import ADDIC7ED_URL
+from addic7ed.config import Config
 
 
 class Addic7edParser:
@@ -15,7 +16,7 @@ class Addic7edParser:
             season,
             episode
         )
-        data = requests.get("%s/%s" % (url, LANG)).text
+        data = requests.get("%s/%s" % (url, Config.lang["code"])).text
         soup = BeautifulSoup(data, "html.parser")
 
         tables = soup.find_all("table", attrs={"class": "tabel95"})

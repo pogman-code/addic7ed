@@ -1,65 +1,64 @@
-from os.path import expanduser
-from configparser import ConfigParser
-
 ADDIC7ED_URL = "http://www.addic7ed.com"
-# LANG = 52  # Albanian
-# LANG = 38  # Arabic
-# LANG = 50  # Armenian
-# LANG = 48  # Azerbaijani
-# LANG = 47  # Bengali
-# LANG = 44  # Bosnian
-# LANG = 35  # Bulgarian
-# LANG = 12  # Català
-# LANG = 41  # Chinese (Simplified)
-# LANG = 24  # Chinese (Traditional)
-# LANG = 31  # Croatian
-# LANG = 14  # Czech
-# LANG = 30  # Danish
-# LANG = 17  # Dutch
-LANG = 1   # English
-# LANG = 54  # Estonian
-# LANG = 13  # Euskera
-# LANG = 28  # Finnish
-# LANG = 8   # French
-# LANG = 53  # French (Canadian)
-# LANG = 15  # Galego
-# LANG = 11  # German
-# LANG = 27  # Greek
-# LANG = 23  # Hebrew
-# LANG = 55  # Hindi
-# LANG = 20  # Hungarian
-# LANG = 56  # Icelandic
-# LANG = 37  # Indonesian
-# LANG = 7   # Italian
-# LANG = 32  # Japanese
-# LANG = 42  # Korean
-# LANG = 57  # Latvian
-# LANG = 58  # Lithuanian
-# LANG = 49  # Macedonian
-# LANG = 40  # Malay
-# LANG = 29  # Norwegian
-# LANG = 43  # Persian
-# LANG = 21  # Polish
-# LANG = 9   # Portuguese
-# LANG = 10  # Portuguese (Brazilian)
-# LANG = 26  # Romanian
-# LANG = 19  # Russian
-# LANG = 39  # Serbian (Cyrillic)
-# LANG = 36  # Serbian (Latin)
-# LANG = 60  # Sinhala
-# LANG = 25  # Slovak
-# LANG = 22  # Slovenian
-# LANG = 4   # Spanish
-# LANG = 6   # Spanish (Latin America)
-# LANG = 5   # Spanish (Spain)
-# LANG = 18  # Swedish
-# LANG = 59  # Tamil
-# LANG = 46  # Thai
-# LANG = 16  # Turkish
-# LANG = 51  # Ukrainian
-# LANG = 45  # Vietnamese
+CONFIG_FILE_NAME = ".addic7edrc"
+LANG_DEFAULT = "en"
 
-config = ConfigParser()
-config.read(expanduser("~") + "/.addic7edrc")
-if "addic7ed" in config and "lang" in config["addic7ed"]:
-    LANG = config["addic7ed"]["lang"]
+# Language code - "ISO 639-1"
+LANG_ISO = {
+    "all":      {"code": 0,     "name": "All languages"},
+    "ar":       {"code": 38,    "name": "Arabic"},
+    "az":       {"code": 48,    "name": "Azerbaijani"},
+    "bg":       {"code": 35,    "name": "Bulgarian"},
+    "bn":       {"code": 47,    "name": "Bengali"},
+    "bs":       {"code": 44,    "name": "Bosnian"},
+    "ca":       {"code": 12,    "name": "Català"},
+    "cs":       {"code": 14,    "name": "Czech"},
+    "da":       {"code": 30,    "name": "Danish"},
+    "de":       {"code": 11,    "name": "German"},
+    "el":       {"code": 27,    "name": "Greek"},
+    "en":       {"code": 1,     "name": "English"},
+    "es":       {"code": 4,     "name": "Spanish"},
+    "es-la":    {"code": 6,     "name": "Spanish (Latin America)"},
+    "es-es":    {"code": 5,     "name": "Spanish (Spain)"},
+    "et":       {"code": 54,    "name": "Estonian"},
+    "eu":       {"code": 13,    "name": "Euskera"},
+    "fa":       {"code": 43,    "name": "Persian"},
+    "fi":       {"code": 28,    "name": "Finnish"},
+    "fr":       {"code": 8,     "name": "French"},
+    "fr-ca":    {"code": 53,    "name": "French (Canadian)"},
+    "gl":       {"code": 15,    "name": "Galego"},
+    "he":       {"code": 23,    "name": "Hebrew"},
+    "hi":       {"code": 55,    "name": "Hindi"},
+    "hr":       {"code": 31,    "name": "Croatian"},
+    "hu":       {"code": 20,    "name": "Hungarian"},
+    "hy":       {"code": 50,    "name": "Armenian"},
+    "id":       {"code": 37,    "name": "Indonesian"},
+    "is":       {"code": 56,    "name": "Icelandic"},
+    "it":       {"code": 7,     "name": "Italian"},
+    "ja":       {"code": 32,    "name": "Japanese"},
+    "ko":       {"code": 42,    "name": "Korean"},
+    "lt":       {"code": 58,    "name": "Lithuanian"},
+    "lv":       {"code": 57,    "name": "Latvian"},
+    "mk":       {"code": 49,    "name": "Macedonian"},
+    "ms":       {"code": 40,    "name": "Malay"},
+    "nl":       {"code": 17,    "name": "Dutch"},
+    "no":       {"code": 29,    "name": "Norwegian"},
+    "pl":       {"code": 21,    "name": "Polish"},
+    "pt":       {"code": 9,     "name": "Portuguese"},
+    "pt-br":    {"code": 10,    "name": "Portuguese (Brazilian)"},
+    "ro":       {"code": 26,    "name": "Romanian"},
+    "ru":       {"code": 19,    "name": "Russian"},
+    "si":       {"code": 60,    "name": "Sinhala"},
+    "sk":       {"code": 25,    "name": "Slovak"},
+    "sl":       {"code": 22,    "name": "Slovenian"},
+    "sq":       {"code": 52,    "name": "Albanian"},
+    "sr":       {"code": 39,    "name": "Serbian (Cyrillic)"},
+    "sr-latn":  {"code": 39,    "name": "Serbian (Latin)"},
+    "sv":       {"code": 18,    "name": "Swedish"},
+    "ta":       {"code": 59,    "name": "Tamil"},
+    "th":       {"code": 46,    "name": "Thai"},
+    "tr":       {"code": 16,    "name": "Turkish"},
+    "uk":       {"code": 51,    "name": "Ukrainian"},
+    "vi":       {"code": 45,    "name": "Vietnamese"},
+    "zh-hans":  {"code": 41,    "name": "Chinese (Simplified)"},
+    "zh-hant":  {"code": 24,    "name": "Chinese (Traditional)"}
+}
