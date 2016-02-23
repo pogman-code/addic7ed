@@ -59,8 +59,8 @@ class Subtitle:
         filename = re.sub(r"\.%s.*Addic7ed\.com" %
                           re.escape(self.release.replace("Version ", "")),
                           "",  filename)
-        f = open(filename, 'w')
-        f.write(subs.text)
+        f = open(filename, 'wb')
+        f.write(subs.content)
         f.close()
         return filename[:-4]
 
