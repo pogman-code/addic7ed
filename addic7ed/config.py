@@ -66,6 +66,9 @@ class Config():
 
         parser.add_argument("--list-lang", action="store_true",
                             help="list supported languages.")
+        parser.add_argument("-n", "--dry-run", action="store_true",
+                            help=("do not ask or download subtitle"
+                                  "just output available ones and leave."))
         parser.add_argument("-l", "--lang", type=_valid_lang,
                             help="language to search subs for (default: en).")
         parser.add_argument("-r", "--rename",
@@ -78,6 +81,8 @@ class Config():
         if args.list_lang:
             print(_lang_list())
             exit(0)
+
+        self.dry_run = args.dry_run
 
         if args.lang:
             logger.info("Setting 'lang' from config file: %s" % args.lang)
