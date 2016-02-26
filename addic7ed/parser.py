@@ -49,16 +49,18 @@ class Subtitle:
         self.downloads = int(m.group(1))
         self.link = self._extract_link()
 
-    def download(self):
+    def download(self, filename=None):
         if self.completion != "Completed":
             raise IncompleteError()
 
         subs = requests.get(self.link, headers={"Referer": self.referer})
-        filename = re.search(r'"(.*)"',
-                             subs.headers["Content-Disposition"]).group(1)
-        filename = re.sub(r"\.%s.*Addic7ed\.com" %
-                          re.escape(self.release.replace("Version ", "")),
-                          "",  filename)
+
+        if not filename:
+            filename = re.search(r'"(.*)"',
+                                 subs.headers["Content-Disposition"]).group(1)
+            filename = re.sub(r"\.%s.*Addic7ed\.com" %
+                              re.escape(self.release.replace("Version ", "")),
+                              "",  filename)
         if Config.keep_lang:
             f = open("%s.%s%s" % (filename[:-4],
                                   Config.lang["iso"],

@@ -7,6 +7,7 @@ from configparser import ConfigParser
 from .constants import LANG_ISO, LANG_DEFAULT, CONFIG_FILE_NAME
 
 logger = logging.getLogger("addic7ed.config")
+RENAME_MODES = ("none", "sub", "video")
 DEFAULT = {
     "lang": LANG_DEFAULT,
     "rename": "none",
@@ -75,8 +76,8 @@ class Config():
         parser.add_argument("-k", "--keep-lang", action="store_true",
                             help="suffix sibtitle file with language ISO code.")
         parser.add_argument("-r", "--rename",
-                            choices=["none", "sub", "video"],
-                            help=("TBD. rename sub/video to match video/sub "
+                            choices=RENAME_MODES,
+                            help=("rename sub/video to match video/sub "
                                   "or none at all (default: none)."))
 
         args = parser.parse_args()
@@ -94,20 +95,25 @@ class Config():
         if args.keep_lang:
             self.keep_lang = args.keep_lang
 
+        if args.rename:
+            self.rename = args.rename
+
     def __setattr__(self, name, value):
         if name == "lang":
             if value in LANG_ISO.keys():
                 logger.info("Language '%s' is now set." % value)
-                super().__setattr__("_%s" % name, value)
+                super().__setattr__(name, {"iso": value, **LANG_ISO[value]})
             else:
                 logger.warn("%s is not a valid language code, using %s" %
-                            (value, self._lang))
+                            (value, self.lang["iso"]))
+        elif name == "keep_lang":
+            super().__setattr__(name, str(value) == "True")
+        elif name == "rename":
+            if value in RENAME_MODES:
+                logger.info("Rename mode is now set to '%s'." % value)
+                super().__setattr__(name, value)
+            else:
+                logger.warn("%s is not a valid rename mode, using %s" %
+                            (value, self.rename))
         else:
             super().__setattr__(name, value)
-
-    def __getattr__(self, name):
-        if name == "lang":
-            return {"iso": self._lang,
-                    **LANG_ISO[self._lang]}
-        else:
-            return super().__getattr__(name)

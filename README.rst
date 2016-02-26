@@ -62,14 +62,15 @@ following command line arguments can be provided:
  ::
 
     optional arguments:
-      -h, --help            show this help message and exit
-      --list-lang           list supported languages.
-      -l LANG, --lang LANG  language to search subs for (default: en).
-
-    TBD:
-      -r {none,sub,video}, --rename {none,sub,video}
-                            rename sub/video to match video/sub or none at
-                            all (default: none).
+        -h, --help            show this help message and exit
+        --list-lang           list supported languages.
+        -n, --dry-run         do not ask or download subtitlejust output available
+                                ones and leave.
+        -l LANG, --lang LANG  language to search subs for (default: en).
+        -k, --keep-lang       suffix sibtitle file with language ISO code.
+        -r {none,sub,video}, --rename {none,sub,video}
+                                rename sub/video to match video/sub or none at all
+                                (default: none).
 
 
 then it will prompt which file you want to download. If download is
