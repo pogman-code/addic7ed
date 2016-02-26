@@ -9,7 +9,8 @@ from .constants import LANG_ISO, LANG_DEFAULT, CONFIG_FILE_NAME
 logger = logging.getLogger("addic7ed.config")
 DEFAULT = {
     "lang": LANG_DEFAULT,
-    "rename": "none"
+    "rename": "none",
+    "keep_lang": False
 }
 
 
@@ -71,6 +72,8 @@ class Config():
                                   "just output available ones and leave."))
         parser.add_argument("-l", "--lang", type=_valid_lang,
                             help="language to search subs for (default: en).")
+        parser.add_argument("-k", "--keep-lang", action="store_true",
+                            help="suffix sibtitle file with language ISO code.")
         parser.add_argument("-r", "--rename",
                             choices=["none", "sub", "video"],
                             help=("TBD. rename sub/video to match video/sub "
@@ -88,6 +91,9 @@ class Config():
             logger.info("Setting 'lang' from config file: %s" % args.lang)
             self.lang = args.lang
 
+        if args.keep_lang:
+            self.keep_lang = args.keep_lang
+
     def __setattr__(self, name, value):
         if name == "lang":
             if value in LANG_ISO.keys():
@@ -101,6 +107,7 @@ class Config():
 
     def __getattr__(self, name):
         if name == "lang":
-            return LANG_ISO[self._lang]
+            return {"iso": self._lang,
+                    **LANG_ISO[self._lang]}
         else:
             return super().__getattr__(name)

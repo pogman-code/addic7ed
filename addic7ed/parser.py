@@ -59,7 +59,12 @@ class Subtitle:
         filename = re.sub(r"\.%s.*Addic7ed\.com" %
                           re.escape(self.release.replace("Version ", "")),
                           "",  filename)
-        f = open(filename, 'wb')
+        if Config.keep_lang:
+            f = open("%s.%s%s" % (filename[:-4],
+                                  Config.lang["iso"],
+                                  filename[-4:]), 'wb')
+        else:
+            f = open(filename, 'wb')
         f.write(subs.content)
         f.close()
         return filename[:-4]
