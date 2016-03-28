@@ -46,12 +46,12 @@ def main():
                 if Config.rename != "sub":
                     filename = subs[int(version)].download()
                     if filename and Config.rename == "video":
-                        print(ep.rename(filename), end="\n\n")
+                        print(ep.rename(filename))
                 else:
                     filename = subs[int(version)].download("%s.srt" %
                                                            ep.filename)
                 print(colored("Downloaded %s subtitle file" %
-                              filename, "green"))
+                              filename, "green"), end="\n\n")
             except Exception as e:
                 print(colored(e, "red"),
                       end="\n\n")
