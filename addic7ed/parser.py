@@ -1,9 +1,9 @@
 import re
 import requests
-import difflib
 
 from bs4 import BeautifulSoup
 from termcolor import colored
+from fuzzywuzzy import fuzz
 
 from addic7ed.constants import ADDIC7ED_URL
 from addic7ed.config import Config
@@ -39,9 +39,7 @@ class Subtitle:
         self.referer = referer
 
         self.release = self._extract_release()
-        self.match_ratio = difflib.SequenceMatcher(None,
-                                                   self.release.split(" ")[-1],
-                                                   best_group).ratio() * 100
+        self.match_ratio = fuzz.ratio(self.release.split(" ")[-1].upper(), best_group.upper())
         self.language = self._extract_language()
         self.completion = self._extract_completion()
         self.comment, self.various = self._extract_comment()
