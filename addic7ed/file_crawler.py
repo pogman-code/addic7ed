@@ -21,14 +21,16 @@ class FileCrawler:
 
     def _parse_filename(self, filename):
         m = re.match(REGEX, filename)
+        print(colored("%s... " % filename, "white", attrs=["dark"]), end="", flush=True)
         if m:
-            return Episode(
-                filename,
-                self.shows.get(m.group(1).replace('.', ' ').title()),
-                int(m.group(2)),
-                int(m.group(3))
-            )
+            serie = self.shows.get(m.group(1).replace('.', ' ').title())
+            season = int(m.group(2))
+            episode = int(m.group(3))
+            print(colored("OK", "green"))
+
+            return Episode(filename, serie, season, episode)
         else:
+            print(colored("No match", "red"))
             return None
 
 

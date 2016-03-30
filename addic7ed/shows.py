@@ -7,8 +7,7 @@ from termcolor import colored
 
 class Shows:
     def __init__(self):
-        print(colored("Fetching shows list, please wait...", "yellow"),
-              end="\n\n")
+        print(colored("Fetching shows list, please wait...", "yellow"))
         data = requests.get("http://www.addic7ed.com/index.php").text
         soup = BeautifulSoup(data, "html.parser")
         self.list = [str(x.text) for x in

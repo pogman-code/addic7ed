@@ -19,6 +19,8 @@ def addic7ed():
 def main():
     crawler = FileCrawler()
     parser = Addic7edParser()
+    print(colored("Found %d show(s)" % len(crawler.episodes), "green"),
+          end="\n\n")
 
     for filename, ep in crawler.episodes.items():
         subs = parser.parse(**ep.infos)
