@@ -14,7 +14,8 @@ class FileCrawler:
     def __init__(self):
         self.shows = Shows()
         self.episodes = OrderedDict()
-        listfile = sorted(os.listdir()) if not Config.from_file else sorted(Config.from_file.read().splitlines())
+        listfile = sorted(os.listdir()) if not Config.from_file else \
+            sorted(Config.from_file.read().splitlines())
         for f in listfile:
             if f.endswith((".avi", ".mkv", ".mp4")):
                 ep = self._parse_filename(f)
@@ -23,7 +24,8 @@ class FileCrawler:
 
     def _parse_filename(self, filename):
         m = re.match(REGEX, filename)
-        print(colored("%s... " % filename, "white", attrs=["dark"]), end="", flush=True)
+        print(colored("%s... " % filename, "white", attrs=["dark"]),
+              end="", flush=True)
         if m:
             serie = self.shows.get(m.group(1).replace('.', ' ').title())
             season = int(m.group(2))

@@ -75,7 +75,7 @@ class Config():
         parser.add_argument("-l", "--lang", type=_valid_lang,
                             help="language to search subs for (default: en).")
         parser.add_argument("-k", "--keep-lang", action="store_true",
-                            help="suffix subtitle file with language ISO code.")
+                            help="suffix subtitle file with language code.")
         parser.add_argument("-f", "--from-file", type=FileType('r'),
                             help="read input file list from a file")
         parser.add_argument("-r", "--rename",
@@ -108,7 +108,8 @@ class Config():
         if name == "lang":
             if value in LANG_ISO.keys():
                 logger.info("Language '%s' is now set." % value)
-                super().__setattr__(name, dict({"iso": value}, **LANG_ISO[value]))
+                super().__setattr__(name, dict({"iso": value},
+                                               **LANG_ISO[value]))
             else:
                 logger.warn("%s is not a valid language code, using %s" %
                             (value, self.lang["iso"]))

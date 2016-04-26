@@ -39,7 +39,8 @@ class Subtitle:
         self.referer = referer
 
         self.release = self._extract_release()
-        self.match_ratio = fuzz.ratio(self.release.split(" ")[-1].upper(), best_group.upper())
+        self.match_ratio = fuzz.ratio(self.release.split(" ")[-1].upper(),
+                                      best_group.upper())
         self.language = self._extract_language()
         self.completion = self._extract_completion()
         self.comment, self.various = self._extract_comment()
