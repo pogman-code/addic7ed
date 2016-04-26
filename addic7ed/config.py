@@ -1,7 +1,7 @@
 import logging
 from os.path import expanduser
 
-from argparse import ArgumentParser, ArgumentTypeError
+from argparse import ArgumentParser, ArgumentTypeError, FileType
 from configparser import ConfigParser
 
 from .constants import LANG_ISO, LANG_DEFAULT, CONFIG_FILE_NAME
@@ -74,7 +74,9 @@ class Config():
         parser.add_argument("-l", "--lang", type=_valid_lang,
                             help="language to search subs for (default: en).")
         parser.add_argument("-k", "--keep-lang", action="store_true",
-                            help="suffix sibtitle file with language ISO code.")
+                            help="suffix subtitle file with language ISO code.")
+        parser.add_argument("-f", "--from-file", type=FileType('r'),
+                            help="read input file list from a file")
         parser.add_argument("-r", "--rename",
                             choices=RENAME_MODES,
                             help=("rename sub/video to match video/sub "
@@ -91,6 +93,9 @@ class Config():
         if args.lang:
             logger.info("Setting 'lang' from config file: %s" % args.lang)
             self.lang = args.lang
+
+        if args.from_file:
+            self.from_file = args.from_file
 
         if args.keep_lang:
             self.keep_lang = args.keep_lang
