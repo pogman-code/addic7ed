@@ -5,6 +5,7 @@ from collections import OrderedDict
 from termcolor import colored
 
 from addic7ed.shows import Shows
+from addic7ed.config import Config
 
 REGEX = r"(.*)\.[s|S]?([0-9]{1,2})[x|X|e|E]?([0-9]{2})\..*([0-9]+p)?.*"
 
@@ -13,7 +14,8 @@ class FileCrawler:
     def __init__(self):
         self.shows = Shows()
         self.episodes = OrderedDict()
-        for f in sorted(os.listdir()):
+        listfile = sorted(os.listdir()) if not Config.from_file else sorted(Config.from_file.read().splitlines())
+        for f in listfile:
             if f.endswith((".avi", ".mkv", ".mp4")):
                 ep = self._parse_filename(f)
                 if ep:
