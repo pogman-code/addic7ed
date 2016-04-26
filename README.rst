@@ -67,7 +67,9 @@ following command line arguments can be provided:
         -n, --dry-run         do not ask or download subtitlejust output available
                                 ones and leave.
         -l LANG, --lang LANG  language to search subs for (default: en).
-        -k, --keep-lang       suffix sibtitle file with language ISO code.
+        -k, --keep-lang       suffix subtitle file with language ISO code.
+        -f FROM_FILE, --from-file FROM_FILE
+                                read input file list from a file
         -r {none,sub,video}, --rename {none,sub,video}
                                 rename sub/video to match video/sub or none at all
                                 (default: none).

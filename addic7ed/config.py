@@ -11,7 +11,8 @@ RENAME_MODES = ("none", "sub", "video")
 DEFAULT = {
     "lang": LANG_DEFAULT,
     "rename": "none",
-    "keep_lang": False
+    "keep_lang": False,
+    "from_file": None
 }
 
 
