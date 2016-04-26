@@ -61,15 +61,19 @@ or
 following command line arguments can be provided:
  ::
 
+    positional arguments:
+        PATH                  path of file to search subtitles for (default: all
+                              video from current dir).
+
     optional arguments:
         -h, --help            show this help message and exit
         --list-lang           list supported languages.
         -n, --dry-run         do not ask or download subtitlejust output available
                                 ones and leave.
         -l LANG, --lang LANG  language to search subs for (default: en).
-        -k, --keep-lang       suffix subtitle file with language ISO code.
+        -k, --keep-lang       suffix subtitle file with language code.
         -f FROM_FILE, --from-file FROM_FILE
-                                read input file list from a file
+                                read files paths from a file.
         -r {none,sub,video}, --rename {none,sub,video}
                                 rename sub/video to match video/sub or none at all
                                 (default: none).

@@ -1,5 +1,5 @@
 import logging
-from os.path import expanduser
+from os.path import expanduser, exists
 
 from argparse import ArgumentParser, ArgumentTypeError, FileType
 from configparser import ConfigParser
@@ -12,7 +12,6 @@ DEFAULT = {
     "lang": LANG_DEFAULT,
     "rename": "none",
     "keep_lang": False,
-    "from_file": None
 }
 
 
@@ -67,6 +66,9 @@ class Config():
             "Addic7ed scraper to download subtitles (almost) automatically"
         ))
 
+        parser.add_argument("paths", metavar="PATH", type=str, nargs='*',
+                            help=("path of file to search subtitles for ("
+                                  "default: all video from current dir)."))
         parser.add_argument("--list-lang", action="store_true",
                             help="list supported languages.")
         parser.add_argument("-n", "--dry-run", action="store_true",
@@ -77,7 +79,7 @@ class Config():
         parser.add_argument("-k", "--keep-lang", action="store_true",
                             help="suffix subtitle file with language code.")
         parser.add_argument("-f", "--from-file", type=FileType('r'),
-                            help="read input file list from a file")
+                            help="read files paths from a file.")
         parser.add_argument("-r", "--rename",
                             choices=RENAME_MODES,
                             help=("rename sub/video to match video/sub "
@@ -90,13 +92,15 @@ class Config():
             exit(0)
 
         self.dry_run = args.dry_run
+        self.paths = [p for p in args.paths if exists(p)]
 
         if args.lang:
             logger.info("Setting 'lang' from config file: %s" % args.lang)
             self.lang = args.lang
 
         if args.from_file:
-            self.from_file = args.from_file
+            files = sorted(args.from_file.read().splitlines())
+            self.paths.extend([f for f in files if exists(f)])
 
         if args.keep_lang:
             self.keep_lang = args.keep_lang

@@ -14,8 +14,7 @@ class FileCrawler:
     def __init__(self):
         self.shows = Shows()
         self.episodes = OrderedDict()
-        listfile = sorted(os.listdir()) if not Config.from_file else \
-            sorted(Config.from_file.read().splitlines())
+        listfile = Config.paths or sorted(os.listdir())
         for f in listfile:
             if f.endswith((".avi", ".mkv", ".mp4")):
                 ep = self._parse_filename(f)
@@ -23,7 +22,7 @@ class FileCrawler:
                     self.episodes[f] = ep
 
     def _parse_filename(self, filename):
-        m = re.match(REGEX, filename)
+        m = re.match(REGEX, os.path.basename(filename))
         print(colored("%s... " % filename, "white", attrs=["dark"]),
               end="", flush=True)
         if m:
@@ -45,14 +44,15 @@ class Episode:
             "season": season,
             "episode": episode,
         }
-        self.filename, self.extension = os.path.splitext(f)
-        m = re.search(r"-(.*)%s$" % self.extension, f)
+        self.dir = os.path.dirname(f)
+        self.filename, self.ext = os.path.splitext(os.path.basename(f))
+        m = re.search(r"-(.*)%s$" % self.ext, f)
         self.infos["group"] = m.group(1) if m else ""
 
     def rename(self, new_name):
         try:
-            os.rename("%s%s" % (self.filename, self.extension),
-                      "%s%s" % (new_name, self.extension))
+            os.rename("%s/%s%s" % (self.dir, self.filename, self.ext),
+                      "%s/%s%s" % (self.dir, new_name, self.ext))
             ret = colored("Renamed %s to %s" % (self.filename, new_name),
                           "green")
             self.filename = new_name

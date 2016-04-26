@@ -48,7 +48,7 @@ class Subtitle:
         self.downloads = int(m.group(1))
         self.link = self._extract_link()
 
-    def download(self, filename=None):
+    def download(self, dir, filename=None):
         if self.completion != "Completed":
             raise IncompleteError()
 
@@ -61,11 +61,11 @@ class Subtitle:
                               re.escape(self.release.replace("Version ", "")),
                               "",  filename)
         if Config.keep_lang:
-            f = open("%s.%s%s" % (filename[:-4],
-                                  Config.lang["iso"],
-                                  filename[-4:]), 'wb')
+            f = open("%s/%s.%s%s" % (dir, filename[:-4],
+                                     Config.lang["iso"],
+                                     filename[-4:]), 'wb')
         else:
-            f = open(filename, 'wb')
+            f = open("%s/%s" % (dir, filename), 'wb')
         f.write(subs.content)
         f.close()
         return filename[:-4]
