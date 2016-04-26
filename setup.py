@@ -6,7 +6,7 @@ with open('README.rst', encoding='utf-8') as f:
 
 setup(
     name='addic7ed',
-    version='0.3.4',
+    version='0.3.5',
 
     description=('Addic7ed scraper written in Python '
                  'to download subtitles (almost) automatically'),
