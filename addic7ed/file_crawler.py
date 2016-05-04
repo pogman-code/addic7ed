@@ -44,7 +44,7 @@ class Episode:
             "season": season,
             "episode": episode,
         }
-        self.dir = os.path.dirname(f)
+        self.dir = os.path.dirname(f) or "."
         self.filename, self.ext = os.path.splitext(os.path.basename(f))
         m = re.search(r"-(.*)%s$" % self.ext, f)
         self.infos["group"] = m.group(1) if m else ""
