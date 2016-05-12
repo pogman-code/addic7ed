@@ -60,25 +60,26 @@ or
 
 following command line arguments can be provided:
  ::
-
     positional arguments:
-    PATH                  path of file to search subtitles for (default: all
-                            video from current dir).
+        PATH                  path of file to search subtitles for (default: all
+                                video from current dir).
 
     optional arguments:
-    -h, --help            show this help message and exit
-    --list-lang           list supported languages.
-    -n, --dry-run         do not ask or download subtitlejust output available
-                            ones and leave.
-    -l LANG, --lang LANG  language to search subs for (default: en).
-    -k, --keep-lang       suffix subtitle file with language code.
-    --names-from-file NAMES_FROM_FILE
-                            read file names from a file.
-    --paths-from-file PATHS_FROM_FILE
-                            read file paths from a file.
-    -r {none,sub,video}, --rename {none,sub,video}
-                            rename sub/video to match video/sub or none at all
-                            (default: none).
+        -h, --help            show this help message and exit
+        --list-lang           list supported languages.
+        -n, --dry-run         do not ask or download subtitlejust output available
+                                ones and leave.
+        -l LANG, --lang LANG  language to search subs for (default: en).
+        -k, --keep-lang       suffix subtitle file with language code.
+        --dont-check-ext      Disable check of filename extensions (.avi, .mkv,
+                                .mp4).
+        --names-from-file NAMES_FROM_FILE
+                                read file names from a file.
+        --paths-from-file PATHS_FROM_FILE
+                                read file paths from a file.
+        -r {none,sub,video}, --rename {none,sub,video}
+                                rename sub/video to match video/sub or none at all
+                                (default: none).
 
 then it will prompt which file you want to download. If download is
 successful, it will rename the video file to match subtitle file.
