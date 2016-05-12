@@ -78,8 +78,10 @@ class Config():
                             help="language to search subs for (default: en).")
         parser.add_argument("-k", "--keep-lang", action="store_true",
                             help="suffix subtitle file with language code.")
-        parser.add_argument("-f", "--from-file", type=FileType('r'),
-                            help="read files paths from a file.")
+        parser.add_argument("--names-from-file", type=FileType('r'),
+                            help="read file names from a file.")
+        parser.add_argument("--paths-from-file", type=FileType('r'),
+                            help="read file paths from a file.")
         parser.add_argument("-r", "--rename",
                             choices=RENAME_MODES,
                             help=("rename sub/video to match video/sub "
@@ -98,8 +100,11 @@ class Config():
             logger.info("Setting 'lang' from config file: %s" % args.lang)
             self.lang = args.lang
 
-        if args.from_file:
-            files = sorted(args.from_file.read().splitlines())
+        if args.names_from_file:
+            self.paths.extend(sorted(args.names_from_file.read().splitlines()))
+
+        if args.paths_from_file:
+            files = sorted(args.paths_from_file.read().splitlines())
             self.paths.extend([f for f in files if exists(f)])
 
         if args.keep_lang:
