@@ -4,7 +4,7 @@ from os.path import expanduser, exists
 from argparse import ArgumentParser, ArgumentTypeError, FileType
 from configparser import ConfigParser
 
-from .constants import LANG_ISO, LANG_DEFAULT, CONFIG_FILE_NAME, EXT_TO_CHECK
+from .constants import LANG_ISO, LANG_DEFAULT, CONFIG_FILE_NAME
 
 logger = logging.getLogger("addic7ed.config")
 RENAME_MODES = ("none", "sub", "video")
@@ -12,6 +12,7 @@ DEFAULT = {
     "lang": LANG_DEFAULT,
     "rename": "none",
     "keep_lang": False,
+    "extensions": None
 }
 
 
@@ -55,6 +56,8 @@ class Config():
         if "addic7ed" in config_file:
             for k, v in config_file["addic7ed"].items():
                 if k in DEFAULT:
+                    if k == "extensions":
+                        v = v.split(',')
                     logger.info("Setting '%s' from config file: %s" % (k, v))
                     setattr(self, k, v)
                 else:
@@ -78,9 +81,9 @@ class Config():
                             help="language to search subs for (default: en).")
         parser.add_argument("-k", "--keep-lang", action="store_true",
                             help="suffix subtitle file with language code.")
-        parser.add_argument("--dont-check-ext", action="store_true",
-                            help="Disable check of filename "
-                            "extensions (%s)." % ', '.join(EXT_TO_CHECK))
+        parser.add_argument("-e", "--extensions", nargs="+",
+                            help="Find subtitles for files matching given "
+                            "extensions (space separated values)")
         parser.add_argument("--names-from-file", type=FileType('r'),
                             help="read file names from a file.")
         parser.add_argument("--paths-from-file", type=FileType('r'),
@@ -111,7 +114,9 @@ class Config():
             self.paths.extend([f for f in files if exists(f)])
 
         self.keep_lang = args.keep_lang
-        self.dont_check_ext = args.dont_check_ext
+
+        if args.extensions:
+            self.extensions = args.extensions
 
         if args.rename:
             self.rename = args.rename

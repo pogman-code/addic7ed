@@ -1,7 +1,6 @@
 ADDIC7ED_URL = "http://www.addic7ed.com"
 CONFIG_FILE_NAME = ".addic7edrc"
 LANG_DEFAULT = "en"
-EXT_TO_CHECK = [".avi", ".mkv", ".mp4"]
 
 # Language code - "ISO 639-1"
 LANG_ISO = {

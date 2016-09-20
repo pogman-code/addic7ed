@@ -71,8 +71,9 @@ following command line arguments can be provided:
                                 ones and leave.
         -l LANG, --lang LANG  language to search subs for (default: en).
         -k, --keep-lang       suffix subtitle file with language code.
-        --dont-check-ext      Disable check of filename extensions (.avi, .mkv,
-                                .mp4).
+        -e EXTENSIONS [EXTENSIONS ...], --extensions EXTENSIONS [EXTENSIONS ...]
+                                Find subtitles for files matching given extensions
+                                (space separated values)
         --names-from-file NAMES_FROM_FILE
                                 read file names from a file.
         --paths-from-file PATHS_FROM_FILE
