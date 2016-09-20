@@ -6,6 +6,7 @@ from termcolor import colored
 
 from addic7ed.shows import Shows
 from addic7ed.config import Config
+from addic7ed.constants import EXT_TO_CHECK
 
 REGEX = r"(.*)\.[s|S]?([0-9]{1,2})[x|X|e|E]?([0-9]{2})\..*([0-9]+p)?.*"
 
@@ -16,7 +17,7 @@ class FileCrawler:
         self.episodes = OrderedDict()
         listfile = Config.paths or sorted(os.listdir())
         for f in listfile:
-            if f.endswith((".avi", ".mkv", ".mp4")):
+            if Config.dont_check_ext or f.endswith(tuple(EXT_TO_CHECK)):
                 ep = self._parse_filename(f)
                 if ep:
                     self.episodes[f] = ep
@@ -44,7 +45,7 @@ class Episode:
             "season": season,
             "episode": episode,
         }
-        self.dir = os.path.dirname(f) or "."
+        self.dir = os.path.dirname(f) or '.'
         self.filename, self.ext = os.path.splitext(os.path.basename(f))
         m = re.search(r"-(.*)%s$" % self.ext, f)
         self.infos["group"] = m.group(1) if m else ""

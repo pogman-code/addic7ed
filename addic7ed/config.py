@@ -4,7 +4,7 @@ from os.path import expanduser, exists
 from argparse import ArgumentParser, ArgumentTypeError, FileType
 from configparser import ConfigParser
 
-from .constants import LANG_ISO, LANG_DEFAULT, CONFIG_FILE_NAME
+from .constants import LANG_ISO, LANG_DEFAULT, CONFIG_FILE_NAME, EXT_TO_CHECK
 
 logger = logging.getLogger("addic7ed.config")
 RENAME_MODES = ("none", "sub", "video")
@@ -78,8 +78,13 @@ class Config():
                             help="language to search subs for (default: en).")
         parser.add_argument("-k", "--keep-lang", action="store_true",
                             help="suffix subtitle file with language code.")
-        parser.add_argument("-f", "--from-file", type=FileType('r'),
-                            help="read files paths from a file.")
+        parser.add_argument("--dont-check-ext", action="store_true",
+                            help="Disable check of filename "
+                            "extensions (%s)." % ', '.join(EXT_TO_CHECK))
+        parser.add_argument("--names-from-file", type=FileType('r'),
+                            help="read file names from a file.")
+        parser.add_argument("--paths-from-file", type=FileType('r'),
+                            help="read file paths from a file.")
         parser.add_argument("-r", "--rename",
                             choices=RENAME_MODES,
                             help=("rename sub/video to match video/sub "
@@ -98,12 +103,15 @@ class Config():
             logger.info("Setting 'lang' from config file: %s" % args.lang)
             self.lang = args.lang
 
-        if args.from_file:
-            files = sorted(args.from_file.read().splitlines())
+        if args.names_from_file:
+            self.paths.extend(sorted(args.names_from_file.read().splitlines()))
+
+        if args.paths_from_file:
+            files = sorted(args.paths_from_file.read().splitlines())
             self.paths.extend([f for f in files if exists(f)])
 
-        if args.keep_lang:
-            self.keep_lang = args.keep_lang
+        self.keep_lang = args.keep_lang
+        self.dont_check_ext = args.dont_check_ext
 
         if args.rename:
             self.rename = args.rename
