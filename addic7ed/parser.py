@@ -60,6 +60,7 @@ class Subtitle:
             filename = re.sub(r"\.%s.*Addic7ed\.com" %
                               re.escape(self.release.replace("Version ", "")),
                               "",  filename)
+            filename = re.sub(r'[<>:"/\\|?*]', '', filename).strip()
         if Config.keep_lang:
             f = open("%s/%s.%s%s" % (dir, filename[:-4],
                                      Config.lang["iso"],
