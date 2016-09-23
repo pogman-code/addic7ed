@@ -7,7 +7,7 @@ from termcolor import colored
 from addic7ed.shows import Shows
 from addic7ed.config import Config
 
-REGEX = r"(.*)\.[s|S]?([0-9]{1,2})[x|X|e|E]?([0-9]{2})\..*([0-9]+p)?.*"
+REGEX = r"(.*)\.[s|S]?([0-9]{1,2})[x|X|e|E]?([0-9]{2})\..*-(\w*)"
 
 
 class FileCrawler:
@@ -29,25 +29,25 @@ class FileCrawler:
             serie = self.shows.get(m.group(1).replace('.', ' ').title())
             season = int(m.group(2))
             episode = int(m.group(3))
+            group = m.group(4)
             print(colored("OK", "green"))
 
-            return Episode(filename, serie, season, episode)
+            return Episode(filename, serie, season, episode, group)
         else:
             print(colored("No match", "red"))
             return None
 
 
 class Episode:
-    def __init__(self, f, serie, season, episode):
+    def __init__(self, f, serie, season, episode, group):
         self.infos = {
             "serie": serie,
             "season": season,
             "episode": episode,
+            "group": group
         }
         self.dir = os.path.dirname(f) or '.'
         self.filename, self.ext = os.path.splitext(os.path.basename(f))
-        m = re.search(r"-(.*)%s$" % self.ext, f)
-        self.infos["group"] = m.group(1) if m else ""
 
     def rename(self, new_name):
         try:
