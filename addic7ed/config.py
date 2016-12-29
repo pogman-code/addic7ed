@@ -125,8 +125,9 @@ class Config():
         if name == "lang":
             if value in LANG_ISO.keys():
                 logger.info("Language '%s' is now set." % value)
-                super().__setattr__(name, dict({"iso": value},
-                                               **LANG_ISO[value]))
+                dlang = {"iso": value}
+                dlang.update(LANG_ISO[value])
+                super().__setattr__(name, dlang)
             else:
                 logger.warn("%s is not a valid language code, using %s" %
                             (value, self.lang["iso"]))
