@@ -38,11 +38,18 @@ def main():
             print()
             continue
         else:
-            version = input('Download number? ')
+            version = input('Download number?(auto for auto-download) ')
             if not version:
                 print(colored("Nothing to do!", "yellow"),
                       end="\n\n")
                 continue
+            if version == 'auto':
+                version = 0
+                for i in range(1, len(subs)):
+                    if (subs[i].downloads > subs[version].downloads or
+                    subs[i].completion == 'Completed' and
+                    subs[version].completion != 'Completed'):
+                        version = i
 
             try:
                 if Config.rename != "sub":
