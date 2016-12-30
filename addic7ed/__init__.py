@@ -4,7 +4,7 @@ from .parser import Addic7edParser
 from .file_crawler import FileCrawler
 from .logger import init_logger
 from .config import Config
-
+from .error_reporting import friendly_msg
 
 def addic7ed():
     try:
@@ -14,7 +14,11 @@ def addic7ed():
     except (EOFError, KeyboardInterrupt, SystemExit):
         print(colored("\nBye!", "yellow"))
         exit(0)
-
+    except Exception as e:
+        print(colored(e, "red"),
+                end="\n\n")
+        friendly_msg(e)
+        exit(0)
 
 def main():
     crawler = FileCrawler()
@@ -44,16 +48,12 @@ def main():
                       end="\n\n")
                 continue
 
-            try:
-                if Config.rename != "sub":
-                    filename = subs[int(version)].download(ep.dir)
-                    if filename and Config.rename == "video":
-                        print(ep.rename(filename))
-                else:
-                    filename = subs[int(version)] \
-                        .download(ep.dir, "%s.srt" % ep.filename)
-                print(colored("Downloaded %s subtitle file" %
-                              filename, "green"), end="\n\n")
-            except Exception as e:
-                print(colored(e, "red"),
-                      end="\n\n")
+            if Config.rename != "sub":
+                filename = subs[int(version)].download(ep.dir)
+                if filename and Config.rename == "video":
+                    print(ep.rename(filename))
+            else:
+                filename = subs[int(version)] \
+                    .download(ep.dir, "%s.srt" % ep.filename)
+            print(colored("Downloaded %s subtitle file" %
+                          filename, "green"), end="\n\n")
