@@ -38,11 +38,9 @@ def main():
             print()
             continue
         else:
-            version = input('Download number? ')
+            version = input('Download number? [0] ')
             if not version:
-                print(colored("Nothing to do!", "yellow"),
-                      end="\n\n")
-                continue
+                version = "0"
 
             try:
                 if Config.rename != "sub":
