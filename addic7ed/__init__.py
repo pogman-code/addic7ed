@@ -38,11 +38,14 @@ def main():
             print()
             continue
         else:
-            version = input('Download number? ')
-            if not version:
-                print(colored("Nothing to do!", "yellow"),
-                      end="\n\n")
+            try:
+                version = input('Download number? [0] ')
+            except KeyboardInterrupt:
+                print(colored("\nNothing to do!", "yellow"), end="\n\n")
                 continue
+
+            if not version:
+                version = "0"
 
             try:
                 if Config.rename != "sub":
