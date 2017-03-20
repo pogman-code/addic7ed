@@ -1,5 +1,6 @@
 import requests
 
+from addic7ed.constants import ADDIC7ED_URL
 from bs4 import BeautifulSoup
 from fuzzywuzzy import process
 from termcolor import colored
@@ -8,7 +9,7 @@ from termcolor import colored
 class Shows:
     def __init__(self):
         print(colored("Fetching shows list, please wait...", "yellow"))
-        data = requests.get("http://www.addic7ed.com/index.php").text
+        data = requests.get(ADDIC7ED_URL + "/index.php").text
         soup = BeautifulSoup(data, "html.parser")
         self.list = [str(x.text) for x in
                      soup.find(id="qsShow").find_all("option")]

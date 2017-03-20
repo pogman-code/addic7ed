@@ -11,7 +11,8 @@ from addic7ed.config import Config
 
 class Addic7edParser:
     def parse(self, serie, season, episode, group):
-        url = "http://www.addic7ed.com/serie/%s/%s/%s" % (
+        url = "%s/serie/%s/%s/%s" % (
+            ADDIC7ED_URL,
             serie,
             season,
             episode
