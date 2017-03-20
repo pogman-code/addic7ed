@@ -40,7 +40,7 @@ def main():
         else:
             try:
                 version = input('Download number? [0] ')
-            except (KeyboardInterrupt):
+            except KeyboardInterrupt:
                 print(colored("\nNothing to do!", "yellow"), end="\n\n")
                 continue
 
