@@ -38,7 +38,12 @@ def main():
             print()
             continue
         else:
-            version = input('Download number? [0] ')
+            try:
+                version = input('Download number? [0] ')
+            except (KeyboardInterrupt):
+                print(colored("\nNothing to do!", "yellow"), end="\n\n")
+                continue
+
             if not version:
                 version = "0"
 
