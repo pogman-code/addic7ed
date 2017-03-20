@@ -50,14 +50,11 @@ class Episode:
         self.filename, self.ext = os.path.splitext(os.path.basename(f))
 
     def rename(self, new_name):
-        try:
-            os.rename("%s/%s%s" % (self.dir, self.filename, self.ext),
-                      "%s/%s%s" % (self.dir, new_name, self.ext))
-            ret = colored("Renamed %s to %s" % (self.filename, new_name),
-                          "green")
-            self.filename = new_name
-        except Exception as e:
-            ret = colored(e, "red")
+        os.rename("%s/%s%s" % (self.dir, self.filename, self.ext),
+                  "%s/%s%s" % (self.dir, new_name, self.ext))
+        ret = colored("Renamed %s to %s" % (self.filename, new_name),
+                      "green")
+        self.filename = new_name
 
         return ret
 
